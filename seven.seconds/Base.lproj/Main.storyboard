@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="z7u-9a-Fjw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="z7u-9a-Fjw">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -136,8 +136,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="qN5-tn-5AE"/>
                     <connections>
+                        <outlet property="buttonHighScores" destination="E3f-Tm-Y1G" id="HBp-Sd-Qvl"/>
                         <outlet property="buttonPushIt" destination="TSk-uF-Vf2" id="yPc-NC-0Km"/>
-                        <outlet property="buttonShowHighScore" destination="E3f-Tm-Y1G" id="hJq-WE-Ewf"/>
                         <outlet property="labelLeaderboard" destination="C7g-7B-s1H" id="64H-kA-481"/>
                         <outlet property="labelPoints" destination="ODy-4q-aBA" id="3cr-d0-5pL"/>
                         <outlet property="labelPrevious" destination="Tbu-yj-s4F" id="17l-Ku-I4l"/>
@@ -187,7 +187,7 @@
                                     <constraint firstAttribute="height" constant="22" id="Isu-BU-j35"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Visit our Facebook Group">
+                                <state key="normal" title="Visit our FB Group">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -266,6 +266,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="8Q5-oX-CPu"/>
                     <connections>
+                        <outlet property="buttonHighScores" destination="gUw-Ab-67N" id="tiE-Ao-yBq"/>
                         <outlet property="labelDeveloper" destination="oOI-aY-7YF" id="BOJ-HF-MOB"/>
                         <outlet property="labelGameOver" destination="ulf-Jb-4KC" id="jJx-x6-ZJs"/>
                         <outlet property="labelLeaderboard" destination="9yw-ws-rDW" id="C7i-aM-ck1"/>

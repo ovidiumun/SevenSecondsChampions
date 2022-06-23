@@ -11,7 +11,6 @@
 		A92501A7286316C600137D9E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A92501A1286316C500137D9E /* Main.storyboard */; };
 		A92501A8286316C600137D9E /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A92501A3286316C600137D9E /* Main_iPad.storyboard */; };
 		A985659B26134954004AB611 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A985659926134954004AB611 /* Assets.xcassets */; };
-		A985F0DA28631B9100A4C499 /* Main_Mac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A985F0D828631B9100A4C499 /* Main_Mac.storyboard */; };
 		A9A0ECEF286457E2007418EC /* button_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = A9A0ECE5286457E2007418EC /* button_pressed.png */; };
 		A9A0ECF0286457E2007418EC /* button.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9A0ECE6286457E2007418EC /* button.wav */; };
 		A9A0ECF1286457E2007418EC /* explode.wav in Resources */ = {isa = PBXBuildFile; fileRef = A9A0ECE7286457E2007418EC /* explode.wav */; };
@@ -35,7 +34,6 @@
 		A92501A2286316C500137D9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A92501A4286316C600137D9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		A985659926134954004AB611 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A985F0D928631B9100A4C499 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_Mac.storyboard; sourceTree = "<group>"; };
 		A9A0ECE5286457E2007418EC /* button_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_pressed.png; path = Files/button_pressed.png; sourceTree = "<group>"; };
 		A9A0ECE6286457E2007418EC /* button.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = button.wav; path = Files/button.wav; sourceTree = "<group>"; };
 		A9A0ECE7286457E2007418EC /* explode.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = explode.wav; path = Files/explode.wav; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 				A9E7878F25E8F7C200B16F90 /* LaunchScreen.storyboard */,
 				A92501A1286316C500137D9E /* Main.storyboard */,
 				A92501A3286316C600137D9E /* Main_iPad.storyboard */,
-				A985F0D828631B9100A4C499 /* Main_Mac.storyboard */,
 				A9E7879225E8F7C200B16F90 /* Info.plist */,
 			);
 			path = seven.seconds;
@@ -192,7 +189,6 @@
 				A9A0ECF8286457E2007418EC /* 2022_original.jpg in Resources */,
 				A9A0ECF7286457E2007418EC /* sparks.sks in Resources */,
 				A9A0ECF2286457E2007418EC /* 2022.jpg in Resources */,
-				A985F0DA28631B9100A4C499 /* Main_Mac.storyboard in Resources */,
 				A9A0ECF1286457E2007418EC /* explode.wav in Resources */,
 				A9A0ECF5286457E2007418EC /* button_normal.png in Resources */,
 			);
@@ -230,14 +226,6 @@
 				A92501A4286316C600137D9E /* Base */,
 			);
 			name = Main_iPad.storyboard;
-			sourceTree = "<group>";
-		};
-		A985F0D828631B9100A4C499 /* Main_Mac.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A985F0D928631B9100A4C499 /* Base */,
-			);
-			name = Main_Mac.storyboard;
 			sourceTree = "<group>";
 		};
 		A9E7878F25E8F7C200B16F90 /* LaunchScreen.storyboard */ = {
@@ -375,7 +363,7 @@
 				CODE_SIGN_ENTITLEMENTS = seven.seconds/seven.seconds.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 111;
+				CURRENT_PROJECT_VERSION = 123;
 				DEVELOPMENT_TEAM = 83532998Y4;
 				INFOPLIST_FILE = seven.seconds/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -383,12 +371,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.11;
+				MARKETING_VERSION = 6.23;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imawo.seven;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -400,7 +390,7 @@
 				CODE_SIGN_ENTITLEMENTS = seven.seconds/seven.seconds.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 111;
+				CURRENT_PROJECT_VERSION = 123;
 				DEVELOPMENT_TEAM = 83532998Y4;
 				INFOPLIST_FILE = seven.seconds/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -408,12 +398,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.11;
+				MARKETING_VERSION = 6.23;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imawo.seven;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,6";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

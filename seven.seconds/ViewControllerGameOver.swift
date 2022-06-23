@@ -26,7 +26,8 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
     @IBOutlet weak var labelLeaderboard: UILabel!
     @IBOutlet weak var labelDeveloper: UILabel!
     @IBOutlet weak var viewMain: UIView!
-        
+    @IBOutlet weak var buttonHighScores: UIButton!
+    
     @IBAction func buttonBack() {
         let itemToPassBack = String(format: "Previous score: %li points", Int(score))
         delegate?.addItemViewController(self, didFinishEnteringItem: itemToPassBack)
@@ -104,11 +105,6 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
         default:
             break
         }
-        
-        guard isGameCenterEnabled else {
-            print("Game Center Not Enabled")
-            return
-        }
     }
     
     override func viewDidLoad() {
@@ -135,17 +131,26 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
         self.view.sendSubviewToBack(imageView)
         
         renderBlur(viewTarget: imageView, isDark: true)
-        
         createSmallSparks()
         //addParallaxToView(vw: view)
         
         labelGameOver.textColor = UIColor.white
+        
         labelPoints.textColor = UIColor.white
         labelScore.textColor = UIColor.white
         labelValue.textColor = UIColor.white
         labelDeveloper.textColor = UIColor.white
         labelLeaderboard.textColor = UIColor.white
         labelValue.text = String(format: "%li", Int(score))
+        
+        guard isGameCenterEnabled else {
+            print("Game Center Not Enabled")
+            
+            labelLeaderboard.isHidden = true
+            buttonHighScores.isHidden = true
+            
+            return
+        }
     }
         
     func addParallaxToView(vw: UIView) {

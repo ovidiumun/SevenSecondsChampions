@@ -46,6 +46,15 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         emitterLayerGlobal?.setValue(
             NSNumber(value: 42),
             forKeyPath: "emitterCells.cellGlobal.velocity")
+        
+        guard isGameCenterEnabled else {
+            print("Game Center Not Enabled")
+            
+            labelLeaderboard.isHidden = true
+            buttonHighScores.isHidden = true
+            
+            return
+        }
     }
     
     @IBOutlet weak var buttonPushIt: UIButton!
@@ -58,7 +67,7 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
     @IBOutlet weak var labelPoints: UILabel!
     @IBOutlet weak var labelPrevious: UILabel!
     @IBOutlet weak var labelLeaderboard: UILabel!
-    @IBOutlet weak var buttonShowHighScore: UIButton!
+    @IBOutlet weak var buttonHighScores: UIButton!
     @IBOutlet var viewMain: UIView!
     
     @IBAction func buttonShowLeaderboard(_ sender: Any) {
@@ -109,12 +118,11 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         impactMed?.prepare()
         
         //Background static
-        /*
          var bounds: CGRect = view.bounds
         bounds.size.width += 0
         bounds.size.height += 0
         
-        let background = UIImage(named: "background.jpg")
+        let background = UIImage(named: "2022_original.jpg")
         var imageView : UIImageView!
         imageView = UIImageView(frame: bounds)
         imageView.contentMode =  UIView.ContentMode.scaleAspectFill
@@ -125,10 +133,9 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         self.view.sendSubviewToBack(imageView)
         
         renderBlur(viewTarget: imageView, isDark: true)
-         */
         
         createSmallSparks()
-        //addSparks()
+        addSparks()
         createSparks()
         //addParallaxToView(vw: view)
         //createFire()
@@ -151,13 +158,20 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         start = false
         initGame()
         
-        //rotateButton(22)
+        guard isGameCenterEnabled else {
+            print("Game Center Not Enabled")
+            
+            labelLeaderboard.isHidden = true
+            buttonHighScores.isHidden = true
+            
+            return
+        }
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         // Application is back in the foreground
 
-        infiniteScroll(duration: 20.0)
+        //infiniteScroll(duration: 20.0)
     }
     
     func infiniteScroll(duration: CGFloat) {
@@ -204,20 +218,18 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         let imageSelected = UIImage(named: "button_pressed.png")
         buttonPushIt.setImage(imageSelected, for: .highlighted)
         
-        //self.view.viewWithTag(4)?.isHidden = true
+        self.view.viewWithTag(4)?.isHidden = true
         
         labelLeaderboard.isHidden = false
-        buttonShowHighScore.isHidden = false
+        buttonHighScores.isHidden = false
     }
     
     func setupGame() {
         initGame()
-        //rotateButton(0)
-        
-        //self.view.viewWithTag(4)?.isHidden = false
+        self.view.viewWithTag(4)?.isHidden = false
         
         labelLeaderboard.isHidden = true
-        buttonShowHighScore.isHidden = true
+        buttonHighScores.isHidden = true
         
         emitterLayerGlobal?.setValue(
             NSNumber(value: 88),
