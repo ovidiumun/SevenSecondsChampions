@@ -371,7 +371,7 @@
 				CODE_SIGN_ENTITLEMENTS = seven.seconds/seven.seconds.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 123;
+				CURRENT_PROJECT_VERSION = 141;
 				DEVELOPMENT_TEAM = 83532998Y4;
 				INFOPLIST_FILE = seven.seconds/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -379,7 +379,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.23;
+				MARKETING_VERSION = 6.41;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imawo.seven;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -398,7 +398,7 @@
 				CODE_SIGN_ENTITLEMENTS = seven.seconds/seven.seconds.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 123;
+				CURRENT_PROJECT_VERSION = 141;
 				DEVELOPMENT_TEAM = 83532998Y4;
 				INFOPLIST_FILE = seven.seconds/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -406,7 +406,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 6.23;
+				MARKETING_VERSION = 6.41;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imawo.seven;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
