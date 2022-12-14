@@ -29,7 +29,7 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
     @IBOutlet weak var buttonHighScores: UIButton!
     
     @IBAction func buttonBack() {
-        let itemToPassBack = String(format: "Previous score: %li points", Int(score))
+        let itemToPassBack = String(format: "Previous score: %li hits", Int(score))
         delegate?.addItemViewController(self, didFinishEnteringItem: itemToPassBack)
 
         dismiss(animated: true)
@@ -170,7 +170,7 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
     }
     
     func createSmallSparks() {
-        guard let image = UIImage(named: "spark.png")?.cgImage else { fatalError("Failed loading image.") }
+        guard let image = UIImage(named: "snow.png")?.cgImage else { fatalError("Failed loading image.") }
         
         emitterLayerGlobal = CAEmitterLayer(layer: image)
         emitterLayerGlobal?.name = "Emitter"
@@ -185,7 +185,7 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
         emitterCellGlobal.lifetime = 10
         emitterCellGlobal.velocity = 42
 
-        emitterCellGlobal.scale = 0.1
+        emitterCellGlobal.scale = 0.05
         emitterCellGlobal.scaleRange = 0.1
         emitterCellGlobal.emissionRange = CGFloat.pi * 2.0
         emitterCellGlobal.contents = image
