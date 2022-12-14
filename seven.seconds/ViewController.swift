@@ -177,17 +177,17 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
     func infiniteScroll(duration: CGFloat) {
         let backgroundImage = UIImage(named: "2022.jpg")!
         let backgroundPattern = UIColor(patternImage: backgroundImage)
-
+        
         let background = CALayer()
         background.backgroundColor = backgroundPattern.cgColor
         background.transform = CATransform3DMakeScale(1, -1, 1)
         background.anchorPoint = CGPoint(x: 0, y: 1)
         background.name = "background"
- 
+        
         let viewSize = self.view.layer.bounds.size
         background.frame = CGRect(x: 0, y: 0, width: viewSize.width, height: backgroundImage.size.height + viewSize.height)
         view.layer.insertSublayer(background, at: 0)
-
+        
         let startPoint = CGPoint.zero
         let endPoint = CGPoint(x: 0, y: -backgroundImage.size.height)
         
