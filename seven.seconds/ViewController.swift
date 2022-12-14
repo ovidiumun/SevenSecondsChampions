@@ -122,7 +122,7 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         bounds.size.width += 0
         bounds.size.height += 0
         
-        let background = UIImage(named: "2022_original.jpg")
+        let background = UIImage(named: "santa_light.png")
         var imageView : UIImageView!
         imageView = UIImageView(frame: bounds)
         imageView.contentMode =  UIView.ContentMode.scaleAspectFill
@@ -132,7 +132,7 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         view.addSubview(imageView)
         self.view.sendSubviewToBack(imageView)
         
-        renderBlur(viewTarget: imageView, isDark: true)
+        //renderBlur(viewTarget: imageView, isDark: true)
         
         createSmallSparks()
         addSparks()
@@ -147,13 +147,13 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         labelTitleSeven.textColor = UIColor.white
         labelTitleSeconds.textColor = UIColor.white
         labelSubtitle.textColor = UIColor.white
-        labelTimer.textColor = UIColor.green
+        labelTimer.textColor = UIColor.white
         labelScore.textColor = UIColor.white
         labelValue.textColor = UIColor.white
         labelPoints.textColor = UIColor.white
         labelPrevious.textColor = UIColor.white
         labelLeaderboard.textColor = UIColor.white
-        labelPrevious.text = String(format: "Previous score: %li points", Int(score))
+        labelPrevious.text = String(format: "Previous score: %li hits", Int(score))
 
         start = false
         initGame()
@@ -206,17 +206,17 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         seconds = 7
         count = 0
 
-        labelTimer.textColor = UIColor.green
+        labelTimer.textColor = UIColor.white
 
         labelTimer.text = String(format: "Time left: %li seconds", Int(seconds))
         labelValue.text = String(format: "%li", Int(count))
         labelScore.text = "YOUR SCORE IS"
         
-        let imageNormal = UIImage(named: "button_normal.png")
-        buttonPushIt.setImage(imageNormal, for: .normal)
+        //let imageNormal = UIImage(named: "button_normal.png")
+        buttonPushIt.setImage(nil, for: .normal)
         
-        let imageSelected = UIImage(named: "button_pressed.png")
-        buttonPushIt.setImage(imageSelected, for: .highlighted)
+        //let imageSelected = UIImage(named: "button_pressed.png")
+        buttonPushIt.setImage(nil, for: .highlighted)
         
         self.view.viewWithTag(4)?.isHidden = true
         
@@ -398,7 +398,7 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
     }
     
     func createSmallSparks() {
-        guard let image = UIImage(named: "spark.png")?.cgImage else { fatalError("Failed loading image.") }
+        guard let image = UIImage(named: "snow.png")?.cgImage else { fatalError("Failed loading image.") }
         
         emitterLayerGlobal = CAEmitterLayer(layer: image)
         emitterLayerGlobal?.name = "Emitter"
@@ -429,9 +429,9 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         emitterLayer?.name = "Emitter"
         
         emitterLayer?.emitterPosition.x = (viewMain?.frame.maxX)! -
-            buttonPushIt.frame.height / 2 - 20
+            buttonPushIt.frame.height / 2 - 10
         emitterLayer?.emitterPosition.y = viewMain.frame.midY +
-            buttonPushIt.frame.height / 2 - 18
+            buttonPushIt.frame.height / 2 - 40
         
          let newColor = CGColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1);
          emitterCell.color = newColor
