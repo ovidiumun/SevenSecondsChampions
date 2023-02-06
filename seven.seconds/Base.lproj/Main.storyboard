@@ -30,8 +30,8 @@
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="56"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hit Santa's Lamp as fast as you can!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCP-BU-Gqf">
-                                <rect key="frame" x="16" y="88" width="278.5" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hit that button as fast as you can!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCP-BU-Gqf">
+                                <rect key="frame" x="16" y="88" width="260.5" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="YSQ-kt-5S9"/>
                                 </constraints>

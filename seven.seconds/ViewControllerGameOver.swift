@@ -62,6 +62,9 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
     var velocity: CGFloat = 0
     
     var animation: CABasicAnimation? = nil
+    
+    var fx: FxProtocol = Fx()
+    var sparks: SparksProtocol = Sparks()
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -114,25 +117,14 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
         isModalInPresentation = true
         labelGameOver.text = ""
         
-        //Background static
-        
-        var bounds: CGRect = view.bounds
-        bounds.size.width += 0
-        bounds.size.height += 0
-        
-        let background = UIImage(named: "2022_original.jpg")
-        var imageView : UIImageView!
-        imageView = UIImageView(frame: bounds)
-        imageView.contentMode =  UIView.ContentMode.scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.image = background
-        imageView.center = view.center
+        //Static Background
+        var imageView = fx.setBackgroundImageView(bounds: view.bounds, center: view.center)
         view.addSubview(imageView)
         self.view.sendSubviewToBack(imageView)
         
-        renderBlur(viewTarget: imageView, isDark: true)
-        createSmallSparks()
-        //addParallaxToView(vw: view)
+        fx.renderBlur(viewTarget: imageView, isDark: true)
+        
+        sparks.createSmallSparks(emitterLayerGlobal: &emitterLayerGlobal, emitterCellGlobal: emitterCellGlobal, view: viewMain)
         
         labelGameOver.textColor = UIColor.white
         
@@ -152,71 +144,6 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
             return
         }
     }
-        
-    func addParallaxToView(vw: UIView) {
-        let amount = 40
-
-        let horizontal = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
-        horizontal.minimumRelativeValue = -amount
-        horizontal.maximumRelativeValue = amount
-
-        let vertical = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
-        vertical.minimumRelativeValue = -amount
-        vertical.maximumRelativeValue = amount
-
-        let group = UIMotionEffectGroup()
-        group.motionEffects = [horizontal, vertical]
-        vw.addMotionEffect(group)
-    }
-    
-    func createSmallSparks() {
-        guard let image = UIImage(named: "snow.png")?.cgImage else { fatalError("Failed loading image.") }
-        
-        emitterLayerGlobal = CAEmitterLayer(layer: image)
-        emitterLayerGlobal?.name = "Emitter"
-        
-        emitterLayerGlobal?.emitterPosition.x = viewMain.frame.midX - 10
-        emitterLayerGlobal?.emitterPosition.y = -50
-        
-        let color = CGColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1);
-        emitterCellGlobal.color = color
-        emitterCellGlobal.name = "cell"
-        emitterCellGlobal.birthRate = 80
-        emitterCellGlobal.lifetime = 10
-        emitterCellGlobal.velocity = 42
-
-        emitterCellGlobal.scale = 0.05
-        emitterCellGlobal.scaleRange = 0.1
-        emitterCellGlobal.emissionRange = CGFloat.pi * 2.0
-        emitterCellGlobal.contents = image
-        
-        emitterLayerGlobal?.emitterCells = [emitterCellGlobal]
-        viewMain.layer.addSublayer(emitterLayerGlobal!)
-    }
-    
-    func createSparks() {
-        guard let image = UIImage(named: "spark.png")?.cgImage
-            else { fatalError("Failed loading image.") }
-        
-        emitterLayer = CAEmitterLayer(layer: image)
-        emitterLayer?.name = "Emitter"
-        
-        emitterLayer?.emitterPosition.x = viewMain.frame.midX
-        emitterLayer?.emitterPosition.y = labelValue.frame.midY + 22
-        
-        emitterCell.name = "cell"
-        emitterCell.birthRate = 1
-        emitterCell.velocity = 22
-        emitterCell.contents = image
-        emitterCell.emissionLongitude = .pi / 2.0
-        emitterCell.emissionRange = CGFloat.pi / 4.0
-        emitterCell.lifetime = 16
-        emitterCell.scale = 0.2
-        emitterCell.scaleRange = 0.2
-        
-        emitterLayer?.emitterCells = [emitterCell]
-        viewMain.layer.addSublayer(emitterLayer!)
-    }
     
     func showLeaderboard() {
         let gcViewController: GKGameCenterViewController = GKGameCenterViewController()
@@ -225,7 +152,6 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
         gcViewController.leaderboardIdentifier = leaderboardID
         self.show(gcViewController, sender: self)
         self.navigationController?.pushViewController(gcViewController, animated: true)
-         // self.presentViewController(gcViewController, animated: true, completion: nil)
     }
         
     func reportAchievement(achievement: String, percentComplete: Double) {
@@ -283,29 +209,6 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
             }))
             self.present(alert, animated: true, completion: nil)
         }
-    }
-    
-    public func renderBlur(viewTarget: UIView, isDark: Bool) {
-        var blurEffect: UIBlurEffect? = nil
-        
-        if #available(iOS 10.0, *) {
-            if (isDark) {
-                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-            } else {
-                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-            }
-        } else {
-            if (isDark) {
-                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-            } else {
-                blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
-            }
-        }
-        
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = viewTarget.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        viewTarget.addSubview(blurEffectView)
     }
 }
 
