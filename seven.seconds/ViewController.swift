@@ -157,7 +157,6 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         // Application is back in the foreground
-
     }
     
     func initGame() {
