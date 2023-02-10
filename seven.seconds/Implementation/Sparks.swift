@@ -62,28 +62,4 @@ class Sparks: SparksProtocol {
         emitterLayer?.emitterCells = [emitterCell]
         view.layer.addSublayer(emitterLayer!)
     }
-    
-    /*public func addSparks(skView: SKView, scene: SKScene, emitterNode: SKEmitterNode, frame:CGRect, size: CGSize, button: UIButton) {
-        skView = SKView(frame: view.frame)
-        scene = SKScene(size: view.frame.size)
-        
-        skView.backgroundColor = .clear
-        scene.backgroundColor = .clear
-        
-        skView.presentScene(scene)
-        skView.isUserInteractionEnabled = false
-        
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        scene.addChild(emitterNode)
-        
-        //emitterNode.position.x = scene.frame.maxX - buttonPushIt.frame.height - 0
-        //emitterNode.position.y = scene.frame.midY
-        
-        emitterNode.position.x = scene.frame.maxX - button.frame.height / 2 - 20
-        emitterNode.position.y = scene.frame.midY - button.frame.width / 2 + 20
-        
-        skView.tag = 4
-        //view.addSubview(skView) ??? parametrize
-        //self.view.viewWithTag(4)?.isHidden = true ??? parametrize
-    }*/
 }

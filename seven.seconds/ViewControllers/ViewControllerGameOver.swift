@@ -123,11 +123,9 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
         self.view.sendSubviewToBack(imageView)
         
         fx.renderBlur(viewTarget: imageView, isDark: true)
-        
         sparks.createSmallSparks(emitterLayerGlobal: &emitterLayerGlobal, emitterCellGlobal: emitterCellGlobal, view: viewMain)
         
         labelGameOver.textColor = UIColor.white
-        
         labelPoints.textColor = UIColor.white
         labelScore.textColor = UIColor.white
         labelValue.textColor = UIColor.white

@@ -117,7 +117,7 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         impactMed = UIImpactFeedbackGenerator(style: .heavy)
         impactMed?.prepare()
 
-        var imageView = fx.setBackgroundImageView(bounds: view.bounds, center: view.center)
+        let imageView = fx.setBackgroundImageView(bounds: view.bounds, center: view.center)
         view.addSubview(imageView)
         self.view.sendSubviewToBack(imageView)
         
