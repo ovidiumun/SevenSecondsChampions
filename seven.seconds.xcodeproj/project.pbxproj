@@ -81,15 +81,6 @@
 			path = Implementation;
 			sourceTree = "<group>";
 		};
-		A953999529910502007B5803 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				A953999629910522007B5803 /* FxProtocol.swift */,
-				A953999A2991142A007B5803 /* SparksProtocol.swift */,
-			);
-			name = Protocols;
-			sourceTree = "<group>";
-		};
 		A9E7877825E8F7C100B16F90 = {
 			isa = PBXGroup;
 			children = (
@@ -110,16 +101,16 @@
 		A9E7878325E8F7C100B16F90 /* seven.seconds */ = {
 			isa = PBXGroup;
 			children = (
-				A9E7878F25E8F7C200B16F90 /* LaunchScreen.storyboard */,
+				A9F601B329963AEC009EEF1D /* Protocols */,
+				A95399902991031E007B5803 /* Implementation */,
 				A9F601B2299639E4009EEF1D /* Storyboards */,
 				A9F601B0299639B9009EEF1D /* ViewControllers */,
-				A953999529910502007B5803 /* Protocols */,
-				A95399902991031E007B5803 /* Implementation */,
 				A9E7879A25E8F85E00B16F90 /* Files */,
 				A9E7879925E8F7EF00B16F90 /* seven.seconds.entitlements */,
 				A9E7878425E8F7C100B16F90 /* AppDelegate.swift */,
 				A9E7878625E8F7C100B16F90 /* SceneDelegate.swift */,
 				6F6F36B325FA377900BD100A /* GameCenter.swift */,
+				A9E7878F25E8F7C200B16F90 /* LaunchScreen.storyboard */,
 				A9E7878D25E8F7C200B16F90 /* Assets.xcassets */,
 				A9E7879225E8F7C200B16F90 /* Info.plist */,
 			);
@@ -158,6 +149,15 @@
 				A92501A3286316C600137D9E /* Main_iPad.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		A9F601B329963AEC009EEF1D /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				A953999629910522007B5803 /* FxProtocol.swift */,
+				A953999A2991142A007B5803 /* SparksProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
