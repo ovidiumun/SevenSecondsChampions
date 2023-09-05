@@ -1,13 +1,4 @@
-//
-//  ViewControllerGameOver.swift
-//  seven.seconds
-//
-//  Created by Ovidiu Muntean on 2/26/21.
-//
-
 import UIKit
-import AVFoundation
-import QuartzCore
 import GameKit
 
 protocol ViewControllerGameOverDelegate: NSObjectProtocol {
@@ -18,7 +9,8 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
+    // Outlets
     @IBOutlet weak var labelGameOver: UILabel!
     @IBOutlet weak var labelScore: UILabel!
     @IBOutlet weak var labelValue: UILabel!
@@ -28,10 +20,61 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
     @IBOutlet weak var viewMain: UIView!
     @IBOutlet weak var buttonHighScores: UIButton!
     
+    // Properties
+    weak var delegate: ViewControllerGameOverDelegate?
+    var score = 0
+    var isGameCenterEnabled = false
+    var isAchievementSaved = false
+    var leaderboardID = "seven.seconds.leaderboard"
+    var achievementID = ""
+    
+    private var emitterLayerGlobal: CAEmitterLayer? = nil
+    private var emitterCellGlobal = CAEmitterCell()
+    private var fx: FxProtocol = Fx()
+    private var sparks: SparksProtocol = Sparks()
+    
+    // View Controller Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupBackground()
+        setupLabels()
+        setupGameCenterUI()
+    }
+    
+    // UI Setup
+    private func setupUI() {
+        isModalInPresentation = true
+        labelGameOver.text = ""
+    }
+    
+    private func setupBackground() {
+        let imageView = fx.setBackgroundImageView(bounds: view.bounds, center: view.center)
+        view.addSubview(imageView)
+        view.sendSubviewToBack(imageView)
+        fx.renderBlur(viewTarget: imageView, isDark: true)
+        sparks.createSmallSparks(emitterLayerGlobal: &emitterLayerGlobal, emitterCellGlobal: emitterCellGlobal, view: viewMain)
+    }
+    
+    private func setupLabels() {
+        let uiElements: [UILabel] = [labelGameOver, labelPoints, labelScore, labelValue, labelDeveloper, labelLeaderboard]
+        uiElements.forEach { $0.textColor = UIColor.white }
+        labelValue.text = "\(score)"
+    }
+    
+    private func setupGameCenterUI() {
+        guard isGameCenterEnabled else {
+            print("Game Center Not Enabled")
+            labelLeaderboard.isHidden = true
+            buttonHighScores.isHidden = true
+            return
+        }
+    }
+    
+    // Button Actions
     @IBAction func buttonBack() {
         let itemToPassBack = String(format: "Previous score: %li hits", Int(score))
         delegate?.addItemViewController(self, didFinishEnteringItem: itemToPassBack)
-
         dismiss(animated: true)
     }
     
@@ -44,28 +87,76 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
             UIApplication.shared.openURL(url)
         }
     }
+    
+    // Game Center
+    func showLeaderboard() {
+        let gcViewController: GKGameCenterViewController = GKGameCenterViewController()
+        gcViewController.gameCenterDelegate = self
+        gcViewController.viewState = GKGameCenterViewControllerState.leaderboards
+        gcViewController.leaderboardIdentifier = leaderboardID
         
-    var isGameCenterEnabled: Bool = false
-    var isAchievementSaved: Bool = false
-    var leaderboardID = "seven.seconds.leaderboard"
-    var achievementID: String = ""
+        self.show(gcViewController, sender: self)
+        self.navigationController?.pushViewController(gcViewController, animated: true)
+    }
     
-    var emitterLayerGlobal: CAEmitterLayer? = nil
-    var emitterCellGlobal = CAEmitterCell()
-    
-    var emitterLayer: CAEmitterLayer? = nil
-    var emitterCell = CAEmitterCell()
-    
-    weak var delegate: ViewControllerGameOverDelegate?
-    var score = 0
-    var birthRate: Float = 0
-    var velocity: CGFloat = 0
-    
-    var animation: CABasicAnimation? = nil
-    
-    var fx: FxProtocol = Fx()
-    var sparks: SparksProtocol = Sparks()
+    func reportAchievement(achievement: String, percentComplete: Double) {
+        guard isGameCenterEnabled else {
+            print("Game Center Not Enabled")
+            return
+        }
         
+        let achievement = GKAchievement(identifier: achievement)
+        achievement.percentComplete = percentComplete
+        achievement.showsCompletionBanner = true
+        
+        GKAchievement.report([achievement]) { (error) in
+            guard error == nil else {
+                print(error?.localizedDescription ?? "")
+                self.isAchievementSaved = false
+                return
+            }
+        }
+        
+        self.isAchievementSaved = true
+    }
+    
+    func showAchievement() {
+        guard isAchievementSaved else {
+            print("Achievement Not Saved")
+            return
+        }
+        
+        let gcViewController = GKGameCenterViewController()
+        gcViewController.gameCenterDelegate = self
+        gcViewController.viewState = .achievements
+        present(gcViewController, animated: true, completion: nil)
+    }
+    
+    func showAlert(achievement: String) {
+        if isAchievementSaved {
+            var title = ""
+            
+            if score > 150 {
+                title = "YOU CHEATED!"
+            } else {
+                title = "Congratulations!"
+            }
+            
+            let alert = UIAlertController(title: title, message: achievement, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Show my Achievements", style: .destructive, handler: { action in
+                self.showAchievement()
+            }))
+            alert.addAction(UIAlertAction(title: "Show the Leaderboard", style: .default, handler: { action in
+                self.showLeaderboard()
+            }))
+            alert.addAction(UIAlertAction(title: "Return to game", style: .cancel, handler: { action in
+                
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    // Game Over Logic
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
@@ -104,109 +195,8 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
             achievementID = "seven.seconds.cheater"
             reportAchievement(achievement: achievementID, percentComplete: 100)
             showAlert(achievement: "\nYou are a \nSEVEN SECONDS CHEATER!")
-            
         default:
             break
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        isModalInPresentation = true
-        labelGameOver.text = ""
-        
-        //Static Background
-        var imageView = fx.setBackgroundImageView(bounds: view.bounds, center: view.center)
-        view.addSubview(imageView)
-        self.view.sendSubviewToBack(imageView)
-        
-        fx.renderBlur(viewTarget: imageView, isDark: true)
-        sparks.createSmallSparks(emitterLayerGlobal: &emitterLayerGlobal, emitterCellGlobal: emitterCellGlobal, view: viewMain)
-        
-        labelGameOver.textColor = UIColor.white
-        labelPoints.textColor = UIColor.white
-        labelScore.textColor = UIColor.white
-        labelValue.textColor = UIColor.white
-        labelDeveloper.textColor = UIColor.white
-        labelLeaderboard.textColor = UIColor.white
-        labelValue.text = String(format: "%li", Int(score))
-        
-        guard isGameCenterEnabled else {
-            print("Game Center Not Enabled")
-            
-            labelLeaderboard.isHidden = true
-            buttonHighScores.isHidden = true
-            
-            return
-        }
-    }
-    
-    func showLeaderboard() {
-        let gcViewController: GKGameCenterViewController = GKGameCenterViewController()
-        gcViewController.gameCenterDelegate = self
-        gcViewController.viewState = GKGameCenterViewControllerState.leaderboards
-        gcViewController.leaderboardIdentifier = leaderboardID
-        self.show(gcViewController, sender: self)
-        self.navigationController?.pushViewController(gcViewController, animated: true)
-    }
-        
-    func reportAchievement(achievement: String, percentComplete: Double) {
-        guard isGameCenterEnabled else {
-            print("Game Center Not Enabled")
-            return
-        }
-        
-        let achievement = GKAchievement(identifier: achievement)
-        achievement.percentComplete = percentComplete
-        achievement.showsCompletionBanner = true
-        
-        GKAchievement.report([achievement]) { (error) in
-            guard error == nil else {
-                print(error?.localizedDescription ?? "")
-                self.isAchievementSaved = false
-                return
-            }
-        }
-        
-        self.isAchievementSaved = true
-    }
-        
-    func showAchievement() {
-        guard isAchievementSaved else {
-            print("Achievement Not Saved")
-            return
-        }
-        
-        let gcViewController = GKGameCenterViewController()
-        gcViewController.gameCenterDelegate = self
-        gcViewController.viewState = .achievements
-        present(gcViewController, animated: true, completion: nil)
-    }
-        
-    func showAlert(achievement: String) {
-        if (isAchievementSaved == true) {
-            var title: String = ""
-            
-            if (score > 150) {
-                title = "YOU CHEATED!"
-            } else {
-                title = "Congratulations!"
-            }
-            
-            let alert = UIAlertController(title: title, message: achievement, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Show my Achievements", style: .destructive, handler: { action in
-                self.showAchievement()
-            }))
-            alert.addAction(UIAlertAction(title: "Show the Leaderboard", style: .default, handler: { action in
-                self.showLeaderboard()
-            }))
-            alert.addAction(UIAlertAction(title: "Return to game", style: .cancel, handler: { action in
-                
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
 }
-
