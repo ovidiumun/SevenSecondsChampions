@@ -37,7 +37,6 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
     private var score = 0
     
     // Factory instances
-    private let fx: Fx = Fx.shared
     private let sparks: Sparks = Sparks.shared
     
     func addItemViewController(_ controller: ViewControllerGameOver?, didFinishEnteringItem item: String?) {
