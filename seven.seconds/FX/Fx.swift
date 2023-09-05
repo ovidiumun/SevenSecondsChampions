@@ -9,7 +9,10 @@ import Foundation
 import UIKit
 import AVFAudio
 
-public class Fx: FxProtocol {
+public class Fx {
+    
+    static let shared = Fx()
+    private init() {}
     
     public func addParallaxToView(vw: UIView) {
         let amount = 40

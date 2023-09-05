@@ -9,7 +9,11 @@ import Foundation
 import UIKit
 import SpriteKit
 
-class Sparks: SparksProtocol {
+class Sparks {
+    
+    static let shared = Sparks()
+    private init() {}
+    
     public func createSmallSparks( emitterLayerGlobal: inout CAEmitterLayer?, emitterCellGlobal: CAEmitterCell, view: UIView!) {
         guard let image = UIImage(named: "spark.png")?.cgImage else { fatalError("Failed loading image.") }
         

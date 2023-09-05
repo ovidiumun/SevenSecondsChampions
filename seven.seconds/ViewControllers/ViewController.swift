@@ -80,28 +80,30 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUI()
-        authenticateLocalPlayer()
+        UIManager.setupUIElements([labelTitleSeven, labelTitleSeconds, labelSubtitle, labelTimer, labelScore, labelValue, labelPoints, labelPrevious, labelLeaderboard])
+        
+        labelPrevious.text = "Previous score: \(score) hits"
+        UIManager.setupButtonImages(button: buttonPushIt)
+        
+        GameCenterManager.shared.authenticateLocalPlayer { [weak self] success in
+            if success {
+                self?.setupGameCenterUI()
+            }
+        }
+        
         prepareAudioPlayers()
         setupEmitterLayers()
     }
 
     // UI Setup
-    private func setupUI() {
-        let uiElements: [UILabel] = [labelTitleSeven, labelTitleSeconds, labelSubtitle, labelTimer, labelScore, labelValue, labelPoints, labelPrevious, labelLeaderboard]
-        uiElements.forEach { $0.textColor = UIColor.white }
-        labelPrevious.text = "Previous score: \(score) hits"
-        
-        initGame()
-        setupGameCenterUI()
-    }
-
     private func setupGameCenterUI() {
-        guard isGameCenterEnabled else {
+        if GameCenterManager.shared.gameCenterEnabled() {
+            labelLeaderboard.isHidden = false
+            buttonHighScores.isHidden = false
+        } else {
             print("Game Center Not Enabled")
             labelLeaderboard.isHidden = true
             buttonHighScores.isHidden = true
-            return
         }
     }
 
@@ -110,9 +112,9 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
         impactMed = UIImpactFeedbackGenerator(style: .heavy)
         impactMed?.prepare()
         
-        buttonBeep = fx.setupAudioPlayer(withFile: "button", type: "wav")
-        damageBeep = fx.setupAudioPlayer(withFile: "damage", type: "wav")
-        explodeBeep = fx.setupAudioPlayer(withFile: "explode", type: "wav")
+        buttonBeep = AudioPlayerFactory.createAudioPlayer(fileName: "button", fileType: "wav")
+        damageBeep = AudioPlayerFactory.createAudioPlayer(fileName: "damage", fileType: "wav")
+        explodeBeep = AudioPlayerFactory.createAudioPlayer(fileName: "explode", fileType: "wav")
     }
 
     // Emitter Layers Setup

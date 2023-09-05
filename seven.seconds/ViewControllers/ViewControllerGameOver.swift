@@ -19,7 +19,7 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
     @IBOutlet weak var labelDeveloper: UILabel!
     @IBOutlet weak var viewMain: UIView!
     @IBOutlet weak var buttonHighScores: UIButton!
-    
+
     // Properties
     weak var delegate: ViewControllerGameOverDelegate?
     var score = 0
@@ -27,15 +27,19 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
     var isAchievementSaved = false
     var leaderboardID = "seven.seconds.leaderboard"
     var achievementID = ""
-    
+
     private var emitterLayerGlobal: CAEmitterLayer? = nil
     private var emitterCellGlobal = CAEmitterCell()
-    private var fx: FxProtocol = Fx()
-    private var sparks: SparksProtocol = Sparks()
+
+    // Factory instances
+    private let fx: Fx = Fx.shared
+    private let sparks: Sparks = Sparks.shared
+    private let gameCenterFactory: GameCenterFactory = GameCenterFactory.shared
     
     // View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
         setupBackground()
         setupLabels()
@@ -55,13 +59,13 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
         fx.renderBlur(viewTarget: imageView, isDark: true)
         sparks.createSmallSparks(emitterLayerGlobal: &emitterLayerGlobal, emitterCellGlobal: emitterCellGlobal, view: viewMain)
     }
-    
+        
     private func setupLabels() {
         let uiElements: [UILabel] = [labelGameOver, labelPoints, labelScore, labelValue, labelDeveloper, labelLeaderboard]
         uiElements.forEach { $0.textColor = UIColor.white }
         labelValue.text = "\(score)"
     }
-    
+        
     private func setupGameCenterUI() {
         guard isGameCenterEnabled else {
             print("Game Center Not Enabled")
@@ -77,11 +81,11 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
         delegate?.addItemViewController(self, didFinishEnteringItem: itemToPassBack)
         dismiss(animated: true)
     }
-    
+        
     @IBAction func buttonShowLeaderboard(_ sender: Any) {
-        showLeaderboard()
+        gameCenterFactory.showLeaderboard(viewController: self, leaderboardID: leaderboardID)
     }
-    
+        
     @IBAction func buttonIMAWO() {
         if let url = URL(string: "https://www.facebook.com/groups/sevensecondschampions") {
             UIApplication.shared.openURL(url)
@@ -90,46 +94,15 @@ class ViewControllerGameOver: UIViewController, GKGameCenterControllerDelegate {
     
     // Game Center
     func showLeaderboard() {
-        let gcViewController: GKGameCenterViewController = GKGameCenterViewController()
-        gcViewController.gameCenterDelegate = self
-        gcViewController.viewState = GKGameCenterViewControllerState.leaderboards
-        gcViewController.leaderboardIdentifier = leaderboardID
-        
-        self.show(gcViewController, sender: self)
-        self.navigationController?.pushViewController(gcViewController, animated: true)
+        gameCenterFactory.showLeaderboard(viewController: self, leaderboardID: leaderboardID)
     }
     
     func reportAchievement(achievement: String, percentComplete: Double) {
-        guard isGameCenterEnabled else {
-            print("Game Center Not Enabled")
-            return
-        }
-        
-        let achievement = GKAchievement(identifier: achievement)
-        achievement.percentComplete = percentComplete
-        achievement.showsCompletionBanner = true
-        
-        GKAchievement.report([achievement]) { (error) in
-            guard error == nil else {
-                print(error?.localizedDescription ?? "")
-                self.isAchievementSaved = false
-                return
-            }
-        }
-        
-        self.isAchievementSaved = true
+        gameCenterFactory.reportAchievement(achievement: achievement, percentComplete: percentComplete)
     }
     
     func showAchievement() {
-        guard isAchievementSaved else {
-            print("Achievement Not Saved")
-            return
-        }
-        
-        let gcViewController = GKGameCenterViewController()
-        gcViewController.gameCenterDelegate = self
-        gcViewController.viewState = .achievements
-        present(gcViewController, animated: true, completion: nil)
+        gameCenterFactory.showAchievement(viewController: self)
     }
     
     func showAlert(achievement: String) {
