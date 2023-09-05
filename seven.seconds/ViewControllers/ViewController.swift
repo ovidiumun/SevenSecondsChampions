@@ -35,8 +35,10 @@ class ViewController: UIViewController, ViewControllerGameOverDelegate, GKGameCe
     private var explodeBeep: AVAudioPlayer?
     private var backgroundMusic: AVAudioPlayer?
     private var score = 0
-    private var fx: FxProtocol = Fx()
-    private var sparks: SparksProtocol = Sparks()
+    
+    // Factory instances
+    private let fx: Fx = Fx.shared
+    private let sparks: Sparks = Sparks.shared
     
     func addItemViewController(_ controller: ViewControllerGameOver?, didFinishEnteringItem item: String?) {
         damageBeep?.play()
